@@ -114,3 +114,6 @@ gradle-app.setting
 hs_err_pid*
 
 !/.idea/sonarlint/
+
+# Ignore Gradle build output directory
+build
