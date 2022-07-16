@@ -3,11 +3,38 @@
  */
 package neto.kotlintests
 
+import neto.jsonlib.json.json
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.await
+import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.http.GET
+
 class App {
     val greeting: String
         get() = "Hello World!"
+
+    fun restGet() = postman().simpleGet()
 }
 
-fun main() {
-    println(App().greeting)
+suspend fun main() {
+
+    with(App()) {
+        println(greeting)
+        val futureResult = restGet()
+        val result = futureResult.await()
+        println(result.json())
+    }
+
+}
+
+fun postman() = Retrofit.Builder()
+    .baseUrl("https://postman-echo.com")
+    .addConverterFactory(JacksonConverterFactory.create())
+    .build()
+    .create(Postman::class.java)
+
+interface Postman {
+    @GET("get")
+    fun simpleGet() : Call<Any>
 }
