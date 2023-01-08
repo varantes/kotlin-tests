@@ -12,7 +12,7 @@ import retrofit2.http.GET
 
 class App {
     val greeting: String
-        get() = "Hello World!"
+        get() = "Hello World! [thread: ${Thread.currentThread().name}]"
 
     fun restGet() = postman().simpleGet()
 }
